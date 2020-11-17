@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="M. Aravind">
+
+
+    <meta name="subtitle" content="𝐴𝑟𝑎𝑣𝑖𝑛𝑑'𝑠 𝑤𝑜𝑟𝑙𝑑">
+
+
+    <meta name="description" content="My Webspace">
+
+
+
+<title>How I gave wireless connectivity to my old printer. | aravindalōkam</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">127.0.0.1</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">127.0.0.1</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">How I gave wireless connectivity to my old printer.</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">M. Aravind</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">November 17, 2020&nbsp;&nbsp;23:23:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Technology/">Technology</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>Hi, Today I had to move the home printer to a new location, and I was thinking of connecting remotely to the “dumb” printer.<br>I had a spare RPi lying near me, so thought of giving a try.<br>Since I had formatted my PC, I had to start from scratch to set up the pi-pc/network communication.   </p>
+<p>How to connect Pi to PC for configuration?<br>I had to heedlessly connect (without knowing Pi’s IP address) to pi and I also want it to talk to my computer through the home router.<br>(Then I can take print-out from my phone/laptop/ or even remotely)( For remotely, you can create a VNC account and control the Pi through it if you are outside your home network.)</p>
+<ol>
+<li>Instal putty, VNC and bonjour print service.   </li>
+<li>Back up my Pi’s SD card previous data using ext2explore utility. (Not needed, but recommended).   </li>
+<li>To connect headlessly:<br>Open notepad.<br>save it into sd card with name ssh and select all files option. (make sure file is empty)<br>Close notepad, then again open notepad  type the following.<br>(this will save your router info so that pi will automatically connect to your network when it boots up).   </li>
+</ol>
+<p>country=US<br>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev<br>update_config=1<br>network={<br>scan_ssid=1<br>ssid=”your_wifi_ssid”<br>psk=”your_wifi_password” }   </p>
+<p>save the file with the name wpa_supplicant.conf and again select all files option and save it to Pi’s SD card.   </p>
+<p>You can follow this for further ref: <a href="https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html" target="_blank" rel="noopener">https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html</a>   </p>
+<p>Voila! Restart and now your Pi will be try to automatically connect to the saved Wifi access point.    (unless your pi doesn’t have wifi problems or you previously played with it’s connectivity settings.) (at least mine did work.)</p>
+<p>Start putty and enter raspberrypi in the address bar (port remains same as 22) and connect.<br>It should ask for username and password.   </p>
+<p>How to setup printing service?   </p>
+<p>Here I used CUPS.   </p>
+<ol start="4">
+<li>Install Common Unix Print System software<br>sudo apt install cups<br>After installing, follow the steps as discussed in<br><a href="https://www.tomshardware.com/how-to/raspberry-pi-print-server" target="_blank" rel="noopener">https://www.tomshardware.com/how-to/raspberry-pi-print-server</a><br>Go to raspberrypi:631 from any device in your network, preferably your pc and verify if you see the cups startup page.   </li>
+</ol>
+<p>Additional help:<br>You can see connection details using the command - ip link show<br>(see this: <a href="https://www.cyberciti.biz/faq/linux-list-network-interfaces-names-command/" target="_blank" rel="noopener">https://www.cyberciti.biz/faq/linux-list-network-interfaces-names-command/</a>)  </p>
+<p>I would suggest to turn on Rpi Automatic login.<br><a href="https://raspberrypi.stackexchange.com/questions/40415/how-to-enable-auto-login#:~:text=4%20Answers&amp;text=To%20enable%20Auto%2Dlogin%20with,then%20log%20you%20in%20automatically" target="_blank" rel="noopener">https://raspberrypi.stackexchange.com/questions/40415/how-to-enable-auto-login#:~:text=4%20Answers&amp;text=To%20enable%20Auto%2Dlogin%20with,then%20log%20you%20in%20automatically</a>   </p>
+<p>If in windows Printers &amp; Scanners settings, if printer is not found, then click the printer I want is not listed option and in the select a shared printer by name field, enter this:<br><a href="http://192.168.1.99:631/printers/EPSON_L210_Series" target="_blank" rel="noopener">http://192.168.1.99:631/printers/EPSON_L210_Series</a><br>(This is your printer admin page in CUPS, change the IP and name accordingly, mine is given for ref.)<br>Here, my Pi’s IP is 192.168.1.99, which also has the alias “raspberrypi”.<br>(If you have connected Pi using LAN, then try “raspberrypi.local”).<br>So the Login/ management page: <a href="http://192.168.1.99:631/" target="_blank" rel="noopener">http://192.168.1.99:631/</a> is equivalent to <a href="http://raspberrypi:631/" target="_blank" rel="noopener">http://raspberrypi:631/</a>  </p>
+<p>If any of the website’s link is unavailable, try using wayback machine archive to find it’s old snapshot.   </p>
+<p>I tried printing from phone using xodo (uses Android print spooler service) and succeeded.  So I think it should work on yours too.   </p>
+<p>I am also planning to do a button – ON and OFF for Pi, inspired from: <a href="https://www.makeuseof.com/tag/add-power-button-raspberry-pi/" target="_blank" rel="noopener">https://www.makeuseof.com/tag/add-power-button-raspberry-pi/</a><br><a href="https://howchoo.com/g/mwnlytk3zmm/how-to-add-a-power-button-to-your-raspberry-pi" target="_blank" rel="noopener">https://howchoo.com/g/mwnlytk3zmm/how-to-add-a-power-button-to-your-raspberry-pi</a>   </p>
+<p>Thanks   </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Raspberry-Pi/"># Raspberry Pi</a>
+                    
+                        <a href="/tags/Smart-Printer/"># Smart Printer</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/11/16/tech_Screensh/">A nifty screenshot utility</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© M. Aravind | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
